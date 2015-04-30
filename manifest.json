@@ -1,0 +1,42 @@
+{
+    
+    "manifest_version": 2,
+    "name": "DazzleVKScrobbler", 
+    "version": "1.1",   
+    "description": "Расширение для скробблинга музыки с сайта vk.com на профиль last.fm",
+
+    "background": {
+        "scripts": ["background/md5.js", "background/Ajax.js", "background/LastAPI.js", "background/Extension.js", "background/Background.js"]
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["*://vk.com/*"],
+            "css": ["css/style.css"],
+            "js": ["content/Connector.js", "content/Content.js"]          
+        }
+    ],
+
+    "web_accessible_resources": [  
+        "inner/DOMOperator.js",      
+        "inner/VKPlayer.js", 
+        "inner/Finder.js", 
+        "inner/Inner.js",
+        "img/scrobbling.gif",
+        "img/scrobblerOff.png",
+        "img/scrobbler.png",
+        "img/scrobblerOK.png"
+    ],
+
+    "permissions": [
+        "tabs"
+    ],
+
+    "icons": { 
+        "16": "icons/16x16.png", 
+        "48": "icons/48x48.png", 
+        "64": "icons/64x64.png",
+        "128": "icons/128x128.png"
+    }
+
+}

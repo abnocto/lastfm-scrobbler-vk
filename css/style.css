@@ -1,0 +1,22 @@
+#gp #DazzleScrobblerImageElement {
+	max-width: 20%;
+	position: absolute;
+	right: 0;
+	top: -12px;
+}
+
+#gp #DazzleScrobblerImageElement[src$="OK.png"] {
+	top: 0;
+}
+
+#ac #DazzleScrobblerImageElement {
+	max-width: 5%;
+	position: absolute;
+	right: 18%;
+	top: -10%;
+}
+
+#ac #DazzleScrobblerImageElement[src$="OK.png"] {
+	right: 18.5%;
+	top: 8%;
+}	
