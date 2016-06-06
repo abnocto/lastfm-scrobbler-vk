@@ -17,81 +17,39 @@
 		this.ribbon = [];
 		this.nowPlayingCounter = -1;
 		this.isPlayingNow = false;
-		this.scrobblingAvailable = true;
+
 		this.domOperator.setPauseImage();
 
 	}
-
-	VKPlayer.prototype.isNewTrack = function() {
-		var player = window.audioPlayer;
-		return this.id !== player.id;
-	};
 
 	VKPlayer.prototype.isPlayerMethodsRedefined = function() {
 		return this.playerMethodsRedefined;
 	};
 
-	VKPlayer.prototype.isPlayer = function() {
-		return window.audioPlayer && window.audioPlayer.id;
-	};
+	VKPlayer.prototype.isNewTrack = function() {
+		return this.isFlashPlayerPlaying() && ( this.id !== this.getId() );
+  };
 
 	VKPlayer.prototype.isReadyToScrobble = function() {
-		return this.percent && (this.percent >= 50) && (!this.isScrobbled) && this.scrobblingAvailable;
-	};
-
-	VKPlayer.prototype.redefinePlayerMethods = function() {		
-		
-		var player = window.audioPlayer,
-			stop = player.stop,
-			operate = player.operate,
-			that = this;	
-
-		player.stop = function() {	
-			that.isPlayingNow = false; 
-			if (!that.isScrobbled) {
-				that.domOperator.setPauseImage();
-			}				
-			that.setNewTrack();						
-			stop.apply(player, arguments);			
-		}
-
-		player.operate = function() {	
-			var paused = player.player.paused();
-			if (paused) {				
-				that.isPlayingNow = true; 
-				if (!that.isScrobbled) {
-					that.domOperator.setPlayImage();
-				}				
-			} else {				
-				that.isPlayingNow = false;
-				if (!that.isScrobbled) {
-					that.domOperator.setPauseImage();
-				}				
-			}						
-			operate.apply(player, arguments);
-		}
-
-		this.playerMethodsRedefined = true;
-
+		return this.id && this.percent && Number.isFinite( this.percent ) && ( this.percent >= 50 ) && ( !this.isScrobbled );
 	};
 
 	VKPlayer.prototype.redrawPlayerImage = function() {
 		this.domOperator.redrawPlayerImage(); 
 	};	
 
-	VKPlayer.prototype.scrobble = function() {		
+	VKPlayer.prototype.scrobble = function() {	
 		this.isScrobbled = true;
 		this.domOperator.setOKImage();
-		this.domOperator.setInfo(this.artist, this.track);
+		this.domOperator.setInfo( this.artist, this.track );
 	};
 
 	VKPlayer.prototype.setNewTrack = function() {		
-		var player = window.audioPlayer;
-		this.id = player.id;
-		this.artist = player.lastSong[5];
-		this.track = player.lastSong[6];
+		this.id = this.getId();
+		this.artist = this.getArtist();
+		this.track = this.getTrack(); 
 		this.isScrobbled = false;
-		this.duration = player.lastSong[3];	
+		this.duration = this.getDuration();
 		this.percent = null;					
 		this.ribbon = [];
 		this.ribbon.length = this.duration;
@@ -100,31 +58,53 @@
 		this.domOperator.setPlayImage();		
 	};
 
-	VKPlayer.prototype.update = function() {
-
-		var player = window.audioPlayer,
-			alreadyListenedSeconds;
-
-		this.scrobblingAvailable = this.domOperator.isScrobblingAvailable();		
-
-		this.ribbon[player.curTime] = true;
-
-		alreadyListenedSeconds = this.ribbon.filter(function(element) {
-			return element;
-		}).length;
-
-		this.percent = Math.round(alreadyListenedSeconds * 100 / this.duration);
-
+	VKPlayer.prototype.update = function() {		
+		this.ribbon[ this.getTime() ] = true;
+		this.percent = Math.round( this.ribbon.filter( e => e ).length * 100 / this.duration );		
 	};
 
-	VKPlayer.prototype.updateNowPlaying = function() {	
-
+	VKPlayer.prototype.updateNowPlaying = function() {			
 		this.nowPlayingCounter += 1;
-
-		if ((this.nowPlayingCounter % 20 == 0) && !this.isScrobbled && this.isPlayingNow && this.scrobblingAvailable) {
+		if ( (this.nowPlayingCounter % 20 === 0) && !this.isScrobbled && this.isPlayingNow ) {
 			this.domOperator.setNPInfo(this.artist, this.track);	
 		}	
+	};
 
+
+	VKPlayer.prototype.getPlayer = function() {
+		//to override
+	};	
+
+	VKPlayer.prototype.isPlayer = function() {
+		//to override
+	};
+
+	VKPlayer.prototype.isFlashPlayerPlaying = function() {
+    //to override
+  };
+
+	VKPlayer.prototype.getId = function() {
+		//to override
+	};
+
+	VKPlayer.prototype.getArtist = function() {
+		//to override
+	};
+
+	VKPlayer.prototype.getTrack = function() {
+		//to override
+	};
+
+	VKPlayer.prototype.getDuration = function() {
+		//to override
+	};
+
+	VKPlayer.prototype.getTime = function() {
+		//to override
+	};
+
+	VKPlayer.prototype.redefinePlayerMethods = function() {		
+		//to override
 	};
 
 	window.DazzleScrobblerModules.VKPlayer = VKPlayer;

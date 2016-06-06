@@ -20,3 +20,19 @@
 	right: 18.5%;
 	top: 8%;
 }	
+
+.top_audio_player #DazzleScrobblerImageElement {
+	position: absolute;
+	width: 12%;
+  height: 75%;
+  left: 87%;
+  top: 0;
+}
+
+.top_audio_player #DazzleScrobblerImageElement[src$="OK.png"] {
+	position: absolute;
+	width: 10%;
+  height: 60%;
+  left: 90%;
+  top: 10px;
+}

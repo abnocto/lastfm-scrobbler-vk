@@ -55,27 +55,40 @@
 	//переопределение положения изображения скробблера в зависимости от открытой страницы
 	DOMOperator.prototype.redrawPlayerImage = function() {		
 		
-		var extra = document.querySelector(".extra_ctrls"),
-			volume = document.querySelector("#ac_vol"),
-			acElem = document.querySelector("#ac .title_wrap"),
-			gpElem = document.getElementById("gp_small"),
-			acElemContainsPlayer,
-			gpElemContainsPlayer;			
+		var oldAC  = document.querySelector("#ac .title_wrap");
+		var oldGP  = document.getElementById("gp_small");
+		var newTOP = document.querySelector(".top_audio_player");
+		var isPlayerAppended, extra, volume;		
 
-		if (acElem) {
-			acElemContainsPlayer = acElem.querySelector("#" + this.image.id);
+		if ( oldAC ) {
+			isPlayerAppended = oldAC.querySelector("#" + this.image.id);
+
 			//position (depends on ac_add button ("+"))
-			this.image.style.right = parseInt(getComputedStyle(extra).width) + parseInt(getComputedStyle(volume).width) / 2 + "px";			
-			if (!acElemContainsPlayer) {
-				acElem.appendChild(this.image);	
-			}			
-		} else if (gpElem) {
-			gpElemContainsPlayer = gpElem.querySelector("#" + this.image.id);	
+			extra  = document.querySelector(".extra_ctrls");
+			volume = document.querySelector("#ac_vol");
+			this.image.style.right = parseInt( getComputedStyle( extra ).width ) + parseInt( getComputedStyle( volume ).width ) / 2 + "px";			
+			
+			if ( !isPlayerAppended ) {
+				oldAC.appendChild( this.image );	
+			}	
+
+		} else if ( oldGP ) {
+			isPlayerAppended = oldGP.querySelector("#" + this.image.id);	
+
 			//position
 			this.image.style.right = 0;		
-			if (!gpElemContainsPlayer) {
-				gpElem.appendChild(this.image);	
+
+			if ( !isPlayerAppended ) {
+				oldGP.appendChild( this.image );	
 			}
+
+		} else if ( newTOP ) {
+			isPlayerAppended = newTOP.querySelector("#" + this.image.id);
+
+			if ( !isPlayerAppended ) {
+				newTOP.appendChild( this.image );	
+			}
+
 		}
 
 	};

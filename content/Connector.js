@@ -12,17 +12,19 @@
 
 		this.inners = [
 			"inner/DOMOperator.js",      
-	        "inner/VKPlayer.js", 
-	        "inner/Finder.js", 
-	        "inner/Inner.js"
+	  	"inner/VKPlayer.js",
+	  	"inner/OldVKPlayer.js",
+	  	"inner/NewVKPlayer.js", 
+	    "inner/Finder.js", 
+	    "inner/Inner.js"
 		];
 
 		this.images = {
 			DazzleScrobblerPlaySrc: "img/scrobbling.gif",
-	        DazzleScrobblerOffSrc: "img/scrobblerOff.png",
-	        DazzleScrobblerPauseSrc: "img/scrobbler.png",
-	        DazzleScrobblerOKSrc: "img/scrobblerOK.png"
-	    };
+	    DazzleScrobblerOffSrc: "img/scrobblerOff.png",
+	    DazzleScrobblerPauseSrc: "img/scrobbler.png",
+	    DazzleScrobblerOKSrc: "img/scrobblerOK.png"
+	  };
 
 	}
 
